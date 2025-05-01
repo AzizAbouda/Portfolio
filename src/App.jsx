@@ -1,7 +1,6 @@
 // src/App.jsx
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';  // Default import for Navbar
-import Footer from './components/Footer';  // Default import for Footer
 import Home from './pages/Home';  // Default import for Home page
 import About from './pages/About';  // Default import for About page
 import Projects from './pages/Projects';  // Default import for Projects page
@@ -20,7 +19,6 @@ function App() {
             <Route path="/contact" element={<Contact />} />
           </Routes>
         </main>
-        <Footer /> {/* Footer component */}
       </div>
     </Router>
   );

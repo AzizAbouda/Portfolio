@@ -1,7 +1,6 @@
 // src/pages/Projects.jsx
 import React from 'react';
 import Navbar from '../components/Navbar';  // Correct path from pages to components
-import Footer from '../components/Footer';  // Correct path from pages to components
 
 const Projects = () => {
   return (
@@ -9,7 +8,6 @@ const Projects = () => {
       <Navbar />
       <h1>My Projects</h1>
       <p>This is the projects page.</p>
-      <Footer />
     </div>
   );
 };
