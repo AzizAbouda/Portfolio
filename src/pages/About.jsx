@@ -1,16 +1,13 @@
-// src/pages/About.jsx
-import React, { Suspense } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Float } from '@react-three/drei';
-import { FaCode, FaLaptopCode, FaBrain } from 'react-icons/fa';
-import Navbar from '../components/Navbar';
+import { FaCode, FaLaptopCode, FaBrain, FaChevronDown } from 'react-icons/fa';
+import { ReactTyped } from 'react-typed';
 
 const CodeBlock = ({ title, content }) => {
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
-      className="bg-gray-800 rounded-lg p-6 font-mono"
+      className="bg-gray-800/50 backdrop-blur-sm rounded-lg p-6 font-mono border border-gray-700/50 shadow-xl"
     >
       <div className="flex items-center mb-2">
         <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
@@ -26,26 +23,6 @@ const CodeBlock = ({ title, content }) => {
         ))}
       </div>
     </motion.div>
-  );
-};
-
-const Scene = () => {
-  return (
-    <>
-      <ambientLight intensity={0.5} />
-      <pointLight position={[10, 10, 10]} />
-      <Float
-        speed={4}
-        rotationIntensity={1}
-        floatIntensity={2}
-      >
-        <mesh>
-          <boxGeometry args={[1, 1, 1]} />
-          <meshStandardMaterial color="#4FD1C5" wireframe />
-        </mesh>
-      </Float>
-      <OrbitControls enableZoom={false} />
-    </>
   );
 };
 
@@ -72,53 +49,73 @@ const About = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
-      <Navbar />
-      <div className="container mx-auto px-4 py-16">
-        <div className="max-w-4xl mx-auto">
-          {/* 3D Scene */}
-          <div className="h-[40vh] mb-12 rounded-lg overflow-hidden bg-gray-800">
-            <Suspense fallback={<div className="h-full flex items-center justify-center">Loading 3D Scene...</div>}>
-              <Canvas camera={{ position: [0, 0, 5] }}>
-                <Scene />
-              </Canvas>
-            </Suspense>
-          </div>
-
-          {/* Introduction */}
+    <div className="relative min-h-screen text-white overflow-hidden bg-gradient-to-b from-gray-900 via-gray-800 to-black">
+      {/* Hero Section */}
+      <section className="relative h-screen flex items-center justify-center px-4">
+        <div className="absolute inset-0 bg-gradient-to-b from-teal-500/10 via-transparent to-transparent" />
+        
+        <div className="container mx-auto text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-16"
+            transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-blue-500">
-              Hello, World!
+            <h1 className="text-6xl md:text-7xl font-bold mb-8">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-blue-500">
+                <ReactTyped
+                  strings={["Hello World!"]}
+                  typeSpeed={80}
+                  showCursor={true}
+                  cursorChar="|"
+                  startDelay={300}
+                />
+              </span>
             </h1>
-            <p className="text-xl text-gray-300">
-              I'm Aziz, a computer science enthusiast turning ideas into code.
+            <p className="text-2xl text-gray-300 leading-relaxed max-w-3xl mx-auto mb-12">
+              I'm Aziz, a programming enthusiast turning ideas into code. 
+              With a passion for building innovative solutions and a constant drive to learn, 
+              I'm always excited to take on new challenges in the world of technology.
             </p>
+            
+            <motion.div
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="mt-12"
+            >
+              <a href="#about-content">
+                <FaChevronDown className="text-teal-400 text-3xl mx-auto cursor-pointer" />
+              </a>
+            </motion.div>
           </motion.div>
+        </div>
+      </section>
 
-          {/* Code Blocks */}
-          <div className="grid grid-cols-1 gap-8">
+      {/* Code Blocks Section */}
+      <section id="about-content" className="container mx-auto px-4 py-24">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 gap-12">
             {sections.map((section, index) => (
               <motion.div
                 key={section.id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.2 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
               >
-                <div className="flex items-center mb-4">
-                  {section.icon}
-                  <h2 className="text-2xl font-bold ml-4">{section.title}</h2>
+                <div className="flex items-center mb-6">
+                  <div className="bg-gray-800/50 p-4 rounded-lg mr-4">
+                    {section.icon}
+                  </div>
+                  <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-blue-500">
+                    {section.title}
+                  </h2>
                 </div>
                 <CodeBlock title={section.title} content={section.content} />
               </motion.div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };
