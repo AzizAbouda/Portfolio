@@ -1,33 +1,58 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
+
+const pageVariants = {
+  initial: {
+    opacity: 0,
+    scale: 0.98
+  },
+  in: {
+    opacity: 1,
+    scale: 1
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.98
+  }
+};
+
+const pageTransition = {
+  type: "tween",
+  ease: "easeInOut",
+  duration: 0.3
+};
 
 const PageTransition = ({ children }) => {
   const location = useLocation();
 
   return (
-    <TransitionWrapper>
-      <AnimatePresence mode="wait" initial={false}>
+    <div style={{ 
+      background: '#121212',
+      position: 'absolute',
+      width: '100%',
+      minHeight: '100%',
+      zIndex: 0
+    }}>
+      <AnimatePresence mode="wait">
         <motion.div
           key={location.pathname}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          initial="initial"
+          animate="in"
+          exit="exit"
+          variants={pageVariants}
+          transition={pageTransition}
+          style={{
+            width: '100%',
+            minHeight: '100%',
+            position: 'relative'
+          }}
         >
           {children}
         </motion.div>
       </AnimatePresence>
-    </TransitionWrapper>
+    </div>
   );
 };
-
-const TransitionWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  position: relative;
-  background-color: #121212; /* Keep this or change to your app's background color */
-`;
 
 export default PageTransition;

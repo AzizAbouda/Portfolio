@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaHome, FaUser, FaProjectDiagram } from 'react-icons/fa';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import Logo from './Logo';
 
 const navItems = [
@@ -15,29 +16,47 @@ const Navbar = () => {
 
   return (
     <StyledNav>
-      {/* Logo container */}
-      <div className="logo-container">
-        <Logo />
-      </div>
+      <motion.div 
+        className="nav-background"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      />
+      
+      <motion.div 
+        className="nav-content"
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+      >
+        <Link to="/" className="logo-container">
+          <Logo />
+        </Link>
 
-      {/* Nav Items */}
-      <ul className="nav-items">
-        {navItems.map((item) => (
-          <li key={item.to}>
-            <StyledButton
-              as={Link}
-              to={item.to}
-              className={location.pathname === item.to ? 'active' : ''}
-              style={{ '--clr': '#00ad54' }}
+        <ul className="nav-items">
+          {navItems.map((item, index) => (
+            <motion.li 
+              key={item.to}
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.3, delay: 0.2 + index * 0.1 }}
             >
-              <div className="button-content">
-                <div className="button__icon">{item.icon}</div>
-                <span className="button__text">{item.label}</span>
-              </div>
-            </StyledButton>
-          </li>
-        ))}
-      </ul>
+              <StyledButton
+                as={Link}
+                to={item.to}
+                className={location.pathname === item.to ? 'active' : ''}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <div className="button-content">
+                  <div className="button__icon">{item.icon}</div>
+                  <span className="button__text">{item.label}</span>
+                </div>
+              </StyledButton>
+            </motion.li>
+          ))}
+        </ul>
+      </motion.div>
     </StyledNav>
   );
 };
@@ -48,18 +67,30 @@ const StyledNav = styled.nav`
   left: 0;
   right: 0;
   height: 4rem;
-  background-color: rgba(17, 17, 17, 0.95);
-  backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 2rem;
   z-index: 50;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  
+  .nav-background {
+    position: absolute;
+    inset: 0;
+    background: rgba(17, 17, 17, 0.95);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-content {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+  }
 
   .logo-container {
     display: flex;
     align-items: center;
+    padding: 0.5rem;
+    margin-left: -0.5rem;
   }
 
   .nav-items {
@@ -67,12 +98,14 @@ const StyledNav = styled.nav`
     padding: 0;
     margin: 0;
     display: flex;
-    gap: 1rem;
+    gap: 0.75rem;
     align-items: center;
   }
 
   @media (max-width: 640px) {
-    padding: 0 1rem;
+    .nav-content {
+      padding: 0 1rem;
+    }
     
     .button__text {
       display: none;
@@ -80,11 +113,10 @@ const StyledNav = styled.nav`
   }
 `;
 
-const StyledButton = styled.button`
+const StyledButton = styled(motion.button)`
   text-decoration: none;
   line-height: 1;
-  border-radius: 0.75rem;
-  overflow: hidden;
+  border-radius: 0.5rem;
   position: relative;
   background: transparent;
   border: none;
@@ -93,9 +125,10 @@ const StyledButton = styled.button`
   align-items: center;
   padding: 0.5rem 1rem;
   transition: all 0.3s ease;
-  color: #fff;
+  color: rgba(255, 255, 255, 0.7);
 
   &:hover {
+    color: rgba(255, 255, 255, 0.9);
     background: rgba(255, 255, 255, 0.1);
   }
 
@@ -110,21 +143,23 @@ const StyledButton = styled.button`
   .button__icon {
     display: grid;
     place-items: center;
-    color: #fff;
+    font-size: 1rem;
     transition: all 0.3s ease;
   }
 
   .button__text {
     font-size: 0.9rem;
+    font-weight: 500;
     transition: all 0.3s ease;
     white-space: nowrap;
   }
 
   &.active {
-    background: var(--clr);
-
-    .button__icon {
-      color: rgba(255, 255, 255, 0.9);
+    color: white;
+    background: #4FD1C5;
+    
+    &:hover {
+      background: #45beb2;
     }
   }
 `;
