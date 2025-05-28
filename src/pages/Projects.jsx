@@ -5,6 +5,7 @@ import { FaGithub } from 'react-icons/fa';
 import styled from 'styled-components';
 import Navbar from '../components/Navbar';
 import portfolioImage from '../assets/portfolio.png';
+import busMonitoringImage from '../assets/bus-monitoring.png';
 
 const Projects = () => {
   return (
@@ -22,42 +23,87 @@ const Projects = () => {
           <p>A showcase of my work and contributions to the development community.</p>
         </motion.div>
 
-        <motion.div
-          className="featured-project"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <div className="project-content">
-            <div className="project-text">
-              <span className="featured-label">Featured Project</span>
-              <h2>Personal Portfolio Website</h2>
-              <p className="project-description">
-                A modern, responsive portfolio website built with React and styled-components. 
-                Features smooth page transitions, interactive 3D elements, and a clean, 
-                minimalist design. Implements modern web development practices including 
-                component reusability and responsive design principles.
-              </p>
-              <div className="tech-stack">
-                <span>React</span>
-                <span>Styled Components</span>
-                <span>Framer Motion</span>
-                <span>Three.js</span>
-                <span>React Router</span>
+        <div className="projects-grid">
+          <motion.div
+            className="project-card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <div className="project-content">
+              <div className="project-text">
+                <span className="featured-label">Featured Project</span>
+                <h2>Personal Portfolio Website</h2>
+                <p className="project-description">
+                  A modern, responsive portfolio website built with React and styled-components. 
+                  Features smooth page transitions, interactive 3D elements, and a clean, 
+                  minimalist design. Implements modern web development practices including 
+                  component reusability and responsive design principles.
+                </p>
+                <div className="tech-stack">
+                  <span>React</span>
+                  <span>Styled Components</span>
+                  <span>Framer Motion</span>
+                  <span>Three.js</span>
+                  <span>React Router</span>
+                </div>
+                <div className="project-links">
+                  <a href="https://github.com/AzizAbouda/Portfolio" target="_blank" rel="noopener noreferrer">
+                    <FaGithub /> Source Code
+                  </a>
+                </div>
               </div>
-              <div className="project-links">
-                <a href="https://github.com/AzizAbouda/Portfolio" target="_blank" rel="noopener noreferrer">
-                  <FaGithub /> Source Code
-                </a>
+              <div className="project-image">
+                <img src={portfolioImage} alt="Portfolio Website Preview" />
               </div>
             </div>
-            <div className="project-image">
-              <img src={portfolioImage} alt="Portfolio Website Preview" />
-            </div>
-          </div>
-        </motion.div>
+          </motion.div>
 
-        {/* More projects will be added here */}
+          <motion.div
+            className="project-card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <div className="project-content">
+              <div className="project-text">
+                <span className="featured-label">Featured Project</span>
+                <h2>Bus Fleet Monitoring System</h2>
+                <p className="project-description">
+                  A comprehensive electric bus fleet management system with role-based access control. 
+                  The system provides real-time monitoring and management capabilities through multiple 
+                  integrated modules:
+                </p>
+                <ul className="feature-list">
+                  <li>Secure role-based access system for different user levels</li>
+                  <li>Real-time fleet status dashboard with vehicle tracking and battery monitoring</li>
+                  <li>Charging station management with live status and capacity tracking</li>
+                  <li>Automated driving and charging schedule coordination</li>
+                  <li>Interactive parking status overview and management</li>
+                  <li>Administrative control panel for system-wide management</li>
+                </ul>
+                <div className="tech-stack">
+                  <span>React</span>
+                  <span>Django</span>
+                  <span>Python</span>
+                  <span>PostgreSQL</span>
+                  <span>REST API</span>
+                </div>
+                <div className="project-links">
+                  <a href="https://github.com/AchrafHafsaoui/teamprojekt" target="_blank" rel="noopener noreferrer">
+                    <FaGithub /> Frontend Code
+                  </a>
+                  <a href="https://github.com/AchrafHafsaoui/teamprojekt-backend" target="_blank" rel="noopener noreferrer">
+                    <FaGithub /> Backend Code
+                  </a>
+                </div>
+              </div>
+              <div className="project-image">
+                <img src={busMonitoringImage} alt="Bus Monitoring System Dashboard" />
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </main>
     </StyledProjects>
   );
@@ -95,11 +141,16 @@ const StyledProjects = styled.div`
     }
   }
 
-  .featured-project {
+  .projects-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+  }
+
+  .project-card {
     background: rgba(255, 255, 255, 0.05);
     border-radius: 1rem;
     padding: 2rem;
-    margin-bottom: 4rem;
 
     .project-content {
       display: grid;
@@ -157,10 +208,14 @@ const StyledProjects = styled.div`
         color: white;
         text-decoration: none;
         font-weight: 500;
-        transition: color 0.3s ease;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        background: rgba(255, 255, 255, 0.05);
+        transition: all 0.3s ease;
 
         &:hover {
           color: #4FD1C5;
+          background: rgba(255, 255, 255, 0.1);
         }
       }
     }
@@ -176,10 +231,31 @@ const StyledProjects = styled.div`
         display: block;
       }
     }
+
+    .feature-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.5rem 0;
+      color: #a0aec0;
+
+      li {
+        position: relative;
+        padding-left: 1.5rem;
+        margin-bottom: 0.5rem;
+        line-height: 1.5;
+
+        &::before {
+          content: '▹';
+          position: absolute;
+          left: 0;
+          color: #4FD1C5;
+        }
+      }
+    }
   }
 
   @media (max-width: 768px) {
-    .featured-project {
+    .project-card {
       .project-content {
         grid-template-columns: 1fr;
         gap: 2rem;

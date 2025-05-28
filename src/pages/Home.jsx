@@ -207,12 +207,6 @@ const Home = () => {
                   >
                     Learn More
                   </Link>
-                  <Link
-                    to="/contact"
-                    className="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-lg font-semibold transition-colors"
-                  >
-                    Get in Touch
-                  </Link>
                 </div>
               </motion.div>
 

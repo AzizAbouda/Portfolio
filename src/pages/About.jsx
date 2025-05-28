@@ -32,7 +32,7 @@ const About = () => {
       id: 'passion',
       icon: <FaCode className="text-4xl text-teal-400" />,
       title: "Passion for Code",
-      content: "const passion = {\\n  languages: ['Python', 'JavaScript', 'C++'],\\n  focus: 'Building meaningful applications',\\n  currentProject: 'Portfolio website with React'\\n};"
+      content: "const passion = {\\n  languages: ['Python', 'JavaScript', 'Typescript', 'Java'],\\n  focus: 'Building meaningful applications',\\n  currentProject: 'Portfolio website with React'\\n};"
     },
     {
       id: 'learning',
