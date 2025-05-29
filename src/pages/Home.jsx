@@ -1,12 +1,98 @@
-import React, { Suspense, useRef, useCallback } from 'react';
+import React, { Suspense, useRef, useCallback, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Float, Box } from '@react-three/drei';
 import { ReactTyped } from 'react-typed';
-import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope, FaCopy } from 'react-icons/fa';
 import { Particles } from "@tsparticles/react";
 import { loadFull } from "tsparticles";
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const EmailPopover = ({ isVisible, onClose }) => {
+  const [copied, setCopied] = useState(false);
+  const email = "azizabouda0103@gmail.com";
+  const popoverRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popoverRef.current && !popoverRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
+
+    if (isVisible) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isVisible, onClose]);
+
+  const handleCopy = async () => {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(email);
+      } else {
+        const textArea = document.createElement("textarea");
+        textArea.value = email;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          textArea.remove();
+        } catch (err) {
+          console.error('Failed to copy text:', err);
+          textArea.remove();
+          return;
+        }
+      }
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text:', err);
+    }
+  };
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          ref={popoverRef}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 10 }}
+          className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 z-50"
+        >
+          <div className="bg-gray-800 rounded-lg shadow-lg p-3 flex items-center gap-3 whitespace-nowrap">
+            <span className="text-gray-200">{email}</span>
+            <button
+              onClick={handleCopy}
+              className="text-gray-400 hover:text-teal-400 transition-colors p-2"
+              title="Copy email"
+            >
+              <FaCopy size={16} />
+            </button>
+            {copied && (
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-sm text-teal-400 bg-gray-900 px-2 py-1 rounded whitespace-nowrap"
+              >
+                Copied!
+              </motion.span>
+            )}
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
 
 const AnimatedBox = ({ position, size, rotationSpeed = 1 }) => {
   const meshRef = useRef();
@@ -49,6 +135,7 @@ const Scene = () => {
 };
 
 const Home = () => {
+  const [showEmailPopover, setShowEmailPopover] = useState(false);
   const particlesInit = useCallback(async (engine) => {
     await loadFull(engine);
   }, []);
@@ -190,14 +277,20 @@ const Home = () => {
                   >
                     <FaLinkedin size={24} />
                   </motion.a>
-                  <motion.a
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    href="mailto:azizabouda0103@gmail.com"
-                    className="p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-colors"
-                  >
-                    <FaEnvelope size={24} />
-                  </motion.a>
+                  <div className="relative">
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setShowEmailPopover(!showEmailPopover)}
+                      className="p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-colors"
+                    >
+                      <FaEnvelope size={24} />
+                    </motion.button>
+                    <EmailPopover 
+                      isVisible={showEmailPopover} 
+                      onClose={() => setShowEmailPopover(false)}
+                    />
+                  </div>
                 </div>
 
                 <div className="flex gap-4">

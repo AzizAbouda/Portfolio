@@ -10,7 +10,8 @@ module.exports = {
           "http": require.resolve("stream-http"),
           "https": require.resolve("https-browserify")
         }
-      }
+      },
+      ignoreWarnings: [/Failed to parse source map/]
     }
   }
 };
