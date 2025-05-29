@@ -2,9 +2,23 @@ module.exports = {
   webpack: {
     configure: (webpackConfig) => {
       webpackConfig.devtool = false;
-      webpackConfig.module = webpackConfig.module || {};
-      webpackConfig.module.rules = webpackConfig.module.rules || [];
-      
+
+      // Add fallback for Node.js core modules (Webpack 5)
+      webpackConfig.resolve = {
+        ...webpackConfig.resolve,
+        fallback: {
+          ...(webpackConfig.resolve?.fallback || {}), // Preserve existing fallbacks
+          "path": require.resolve("path-browserify"),
+          "fs": false, // or require.resolve("browserify-fs") if needed
+          "crypto": require.resolve("crypto-browserify"),
+          "stream": require.resolve("stream-browserify"),
+          "http": require.resolve("stream-http"),
+          "https": require.resolve("https-browserify"),
+          "zlib": require.resolve("browserify-zlib"),
+          // Add other necessary polyfills
+        },
+      };
+
       // Add ignore warnings through plugins
       webpackConfig.plugins = webpackConfig.plugins || [];
       webpackConfig.plugins.push({
@@ -19,14 +33,7 @@ module.exports = {
         }
       });
 
-      // Configure resolve fallbacks
-      webpackConfig.resolve = webpackConfig.resolve || {};
-      webpackConfig.resolve.alias = webpackConfig.resolve.alias || {};
-      webpackConfig.resolve.alias.path = false;
-      webpackConfig.resolve.alias.fs = false;
-      webpackConfig.resolve.alias.crypto = false;
-
       return webpackConfig;
     }
   },
-}; 
+};

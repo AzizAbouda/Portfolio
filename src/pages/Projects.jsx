@@ -113,6 +113,9 @@ const StyledProjects = styled.div`
   min-height: 100vh;
   background-color: #121212;
   color: white;
+  overflow-y: auto;
+  position: relative;
+  top: 0;
 
   .projects-content {
     max-width: 1200px;
