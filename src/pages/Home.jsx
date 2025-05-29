@@ -173,7 +173,7 @@ const Home = () => {
                   <motion.a
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
-                    href="https://github.com"
+                    href="https://github.com/AzizAbouda"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-colors"
@@ -183,7 +183,7 @@ const Home = () => {
                   <motion.a
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
-                    href="https://linkedin.com"
+                    href="https://www.linkedin.com/in/aziz-abouda-b79244240/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-colors"
@@ -193,7 +193,7 @@ const Home = () => {
                   <motion.a
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
-                    href="mailto:your.email@example.com"
+                    href="mailto:azizabouda0103@gmail.com"
                     className="p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-colors"
                   >
                     <FaEnvelope size={24} />
