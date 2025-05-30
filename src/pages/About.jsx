@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import { FaCode, FaLaptopCode, FaBrain, FaChevronDown } from 'react-icons/fa';
 import { ReactTyped } from 'react-typed';
@@ -27,6 +27,14 @@ const CodeBlock = ({ title, content }) => {
 };
 
 const About = () => {
+  const aboutContentRef = useRef(null);
+
+  const scrollToContent = () => {
+    aboutContentRef.current?.scrollIntoView({
+      behavior: 'smooth'
+    });
+  };
+
   const sections = [
     {
       id: 'passion',
@@ -82,16 +90,24 @@ const About = () => {
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               className="mt-12"
             >
-              <a href="#about-content">
-                <FaChevronDown className="text-teal-400 text-3xl mx-auto cursor-pointer" />
-              </a>
+              <button 
+                onClick={scrollToContent}
+                aria-label="Scroll to content"
+                className="focus:outline-none group"
+              >
+                <FaChevronDown className="text-teal-400 text-3xl mx-auto cursor-pointer group-hover:text-teal-300 transition-colors duration-300" />
+              </button>
             </motion.div>
           </motion.div>
         </div>
       </section>
 
       {/* Code Blocks Section */}
-      <section id="about-content" className="container mx-auto px-4 py-24">
+      <section 
+        ref={aboutContentRef}
+        id="about-content" 
+        className="container mx-auto px-4 py-24"
+      >
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 gap-12">
             {sections.map((section, index) => (
